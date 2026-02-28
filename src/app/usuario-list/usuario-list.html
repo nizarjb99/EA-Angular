@@ -20,4 +20,26 @@
   No hay usuarios.
 </p>
 
+<button type="button" class="btn" (click)="mostrarFormulario()">Añadir</button>
+<div *ngIf="mostrarForm" class="card">
+
+  <h3>Nuevo Usuario</h3>
+
+  <form [formGroup]="usuarioForm" (ngSubmit)="guardar()">
+    
+
+    <label>Organización:</label>
+    <select formControlName="organizacion">
+    <option value="" disabled selected>Selecciona una organización</option>
+    <option *ngFor="let o of organizaciones" [value]="o._id">{{ o.name }}</option>
+    </select>
+
+    <label>Nombre:</label>
+    <input type="text" formControlName="name" />
+
+    <button type="submit" class="btn" [disabled]="usuarioForm.invalid">Guardar</button>
+
+  </form>
+
+</div>
 <button type="button" class="btn" (click)="load()">Recargar</button>

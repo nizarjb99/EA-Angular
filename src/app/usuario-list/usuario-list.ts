@@ -3,23 +3,33 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../posts/api.service';
 import { Usuario } from '../models/usuario.model';
 import { Organizacion } from '../models/organizacion.model';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-usuario-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './usuario-list.html',
   styleUrls: ['./usuario-list.css'],
 })
 export class UsuarioList implements OnInit {
   usuarios: Usuario[] = [];
+  organizaciones: Organizacion[] = [];
   loading = false;
   errorMsg = '';
+  mostrarForm = false;
+  usuarioForm!: FormGroup;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private fb: FormBuilder) {
+    this.usuarioForm = this.fb.group({
+      name: ['', Validators.required],
+      organizacion: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     this.load();
+    this.loadOrganizaciones();
   }
 
   load(): void {
@@ -49,4 +59,35 @@ export class UsuarioList implements OnInit {
     if (typeof org === 'string') return org; 
     return (org as Organizacion).name ?? '-';
   }
+
+   mostrarFormulario(): void {
+  this.mostrarForm = true;
+}
+
+loadOrganizaciones(): void {
+  this.api.getOrganizaciones().subscribe({
+    next: (res) => this.organizaciones = res?.organizaciones ?? [],
+    error: (err) => console.error(err)
+  });
+}
+
+guardar(): void {
+  if (this.usuarioForm.invalid) return;
+
+  const payload = {
+    name: this.usuarioForm.value.name,
+    organizacion: this.usuarioForm.value.organizacion 
+  };
+  this.api.createUsuario(payload.name, payload.organizacion).subscribe({
+    next: () => {
+      this.mostrarForm = false;
+      this.usuarioForm.reset();
+      this.load();
+    },
+    error: (err) => {
+      console.error('Error backend:', err.error);
+      this.errorMsg = 'No se ha podido crear el usuario.';
+    }
+  });
+}
 }

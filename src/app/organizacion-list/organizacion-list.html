@@ -14,4 +14,20 @@
   No hay organizaciones.
 </p>
 
+<button type="button" class="btn" (click)="mostrarFormulario()">Añadir</button>
+<div *ngIf="mostrarForm" class="card">
+
+  <h3>Nueva Organización</h3>
+
+  <form [formGroup]="organizacionForm" (ngSubmit)="guardar()">
+
+    <label>Nombre:</label>
+    <input type="text" formControlName="nombre" />
+
+    <button type="submit" class="btn" [disabled]="organizacionForm.invalid">Guardar</button>
+
+  </form>
+
+</div>
+
 <button type="button" class="btn" (click)="load()">Recargar</button>

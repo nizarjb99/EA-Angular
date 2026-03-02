@@ -5,9 +5,13 @@
 
 <ul class="list" *ngIf="!loading && !errorMsg && organizaciones.length > 0">
   <li class="card" *ngFor="let org of organizaciones; trackBy: trackById">
+    <div>
     <span class="name">{{ org.name }}</span>
-    <span class="muted">{{ org._id }}</span>
-    <button type="button" class="btn" (click)="delete(org._id)">X</button>
+    </div>
+    <div>
+    <span class="muted" >{{ org._id }}</span>
+    <button type="button" class="btn delete-btn" (click)="delete(org._id)">X</button>
+    </div>
   </li>
 </ul>
 

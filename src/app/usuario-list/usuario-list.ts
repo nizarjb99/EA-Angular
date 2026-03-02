@@ -93,4 +93,19 @@ guardar(): void {
     }
   });
 }
+
+  delete(id: string): void {
+    this.errorMsg = '';
+    this.loading = true;
+
+    this.api.deleteUsuario(id).subscribe({
+      next: () => {
+        this.load();
+      },
+      error: () => {
+        this.errorMsg = 'Error delete';
+        this.loading = false;
+      }
+    });
+  }
 }

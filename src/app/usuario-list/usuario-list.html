@@ -1,11 +1,13 @@
 <h2>Usuarios</h2>
 
+<!-- Buscador: buscar por nombre -->
 <p> <input
   type="text"
   [formControl]="searchControl"
   placeholder="Buscar por nombre..."
 /> </p>
 
+<!-- Mensajes de estado -->
 <p *ngIf="loading">Cargando...</p>
 <p *ngIf="!loading && errorMsg">{{ errorMsg }}</p>
 
@@ -13,14 +15,18 @@
   No hay usuarios.
 </p>
 
+<!-- Botón para mostrar formulario de nuevo usuario -->
 <button *ngIf="!mostrarForm" type="button" class="btn" (click)="mostrarFormulario()" style="margin-bottom: 15px;">Añadir Nuevo Usuario</button>
 
+<!-- Formulario para crear o editar usuario -->
 <div *ngIf="mostrarForm" class="card">
 
+  <!-- Título dinámico según si se está editando o creando un usuario -->
   <h3>{{ editando ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
 
   <form [formGroup]="usuarioForm" (ngSubmit)="guardar()">
     
+    <!-- Campo de selección de organización -->
     <div style="margin-bottom: 10px;">
       <label>Organización:</label>
       <select formControlName="organizacion" style="width: 100%; padding: 5px;">
@@ -29,11 +35,13 @@
       </select>
     </div>
 
+    <!-- Campo de nombre-->
     <div style="margin-bottom: 10px;">
       <label>Nombre:</label>
       <input type="text" formControlName="name" style="width: 100%; padding: 5px;" />
     </div>
 
+    <!-- Campo de email -->
     <div style="margin-bottom: 10px;">
       <label>Email:</label>
       <input type="email" formControlName="email" style="width: 100%; padding: 5px;" />
@@ -42,6 +50,7 @@
       </small>
     </div>
 
+    <!-- Campos de contraseña (solo para nuevo usuario o si se quiere cambiar) -->
     <div style="margin-bottom: 10px;">
       <label>Contraseña:</label>
       <input type="password" formControlName="password" style="width: 100%; padding: 5px;" />
@@ -50,6 +59,7 @@
       </small>
     </div>
 
+    <!-- Campo de confirmación de contraseña -->
     <div style="margin-bottom: 15px;">
       <label>Repetir contraseña:</label>
       <input type="password" formControlName="confirmPassword" style="width: 100%; padding: 5px;" />
@@ -58,6 +68,7 @@
       </small>
     </div>
 
+    <!-- Botones de guardar y cancelar -->
     <div>
       <button type="submit" class="btn" [disabled]="usuarioForm.invalid">Guardar</button>
       <button type="button" class="btn" (click)="resetForm()" style="margin-left: 10px;">Cancelar</button>
@@ -67,8 +78,11 @@
 
 </div>
 
+<!-- Tabla de usuarios -->
 <div *ngIf="!loading && !errorMsg && usuariosVisibles.length > 0">
   <table style="width: 100%; text-align: left; margin-top: 20px; border-collapse: collapse;">
+    
+    <!-- Encabezado de la tabla -->
     <thead>
       <tr style="border-bottom: 1px solid #ccc;">
         <th>Nombre</th>
@@ -77,6 +91,8 @@
         <th>Acciones</th>
       </tr>
     </thead>
+
+    <!-- Cuerpo de la tabla con usuarios visibles -->
     <tbody>
       <tr *ngFor="let u of usuariosVisibles" style="border-bottom: 1px solid #eee;">
         <td style="padding: 8px 0;">{{ u.name }}</td>
@@ -91,6 +107,8 @@
 </div>
 
 <div style="margin-top: 10px;">
+
+  <!-- Botones para mostrar más/menos usuarios si supera el limite -->
   <button 
     *ngIf="!mostrarTodosUsuarios && usuariosFiltrados.length > limite"
     class="btn"
@@ -107,4 +125,5 @@
   </button>
 </div>
 
+<!-- Botón para recargar los datos -->
 <button type="button" class="btn" (click)="load()" style="margin-top: 15px;">Recargar</button>

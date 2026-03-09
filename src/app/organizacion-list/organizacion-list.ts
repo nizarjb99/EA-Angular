@@ -70,15 +70,17 @@ export class OrganizacionList implements OnInit {
     });
   }
 
+  //Función: trackBy para optimizar el ngFor
   trackById(_index: number, org: Organizacion): string {
     return org._id;
   }
 
-  //Función: crear
+  //Función: mostrar formulario
   mostrarFormulario(): void {
   this.mostrarForm = true;
   }
-  //Función: mostrar más
+
+  //Función: mostrar más organizaciones
   mostrarMas(): void {
   this.mostrarTodasOrganizaciones = true;
   } 
@@ -90,6 +92,7 @@ export class OrganizacionList implements OnInit {
     return this.organizacionesFiltradas.slice(0, this.limite);
   }
 
+  //Función: editar organización
   editar(org: Organizacion): void {
     this.mostrarForm = true;
     this.editando = true;
@@ -100,7 +103,7 @@ export class OrganizacionList implements OnInit {
     });
   }
 
-
+  //Función: guardar organización (crear o actualizar)
   guardar(): void {
 
     if (this.organizacionForm.invalid) return;
@@ -136,9 +139,13 @@ export class OrganizacionList implements OnInit {
         });
     }
   }
+
+  //estado de expansión para mostrar el nombre completo
   toggleExpand(id: string): void {
     this.expanded[id] = !this.expanded[id];
   }
+
+  //Función: resetear formulario
   resetForm(): void {
     this.mostrarForm = false;
     this.editando = false;
@@ -162,6 +169,8 @@ export class OrganizacionList implements OnInit {
         });
     }
   }
+
+  //Función: confirmar eliminación
   confirmDelete(id: string, name?: string) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: name
@@ -174,6 +183,7 @@ export class OrganizacionList implements OnInit {
     });
   }
 
+  //Función: eliminar organización
   delete(id: string): void {
     this.errorMsg = '';
     this.loading = true;

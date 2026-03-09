@@ -1,16 +1,22 @@
 <h2>Organizaciones</h2>
 
+<!-- Buscador: buscar por nombre -->
 <p> <input
   type="text"
   [formControl]="searchControl"
   placeholder="Buscar por nombre..."
 /> </p>
 
+<!-- Mensajes de estado -->
 <p *ngIf="loading">Cargando...</p>
 <p *ngIf="!loading && errorMsg">{{ errorMsg }}</p>
 
+<!-- Mensaje si no hay organizaciones -->
 <ul class="list" *ngIf="!loading && !errorMsg && organizaciones.length > 0">
+  <!-- Lista de organizaciones -->
   <li class="card" *ngFor="let org of organizacionesVisibles; trackBy: trackById"> 
+    
+    <!-- Nombre con truncado si supera de 15 caracteres y botón para expandir -->
     <div>
       <span class="name">
       {{
@@ -20,6 +26,7 @@
       }}
       </span>
 
+      <!-- Botón para mostrar más o menos si el nombre es largo -->
       <button *ngIf="org.name.length > 15"
               class="btn"
               (click)="toggleExpand(org._id)">
@@ -27,6 +34,7 @@
       </button>
     </div>
 
+    <!-- ID y botones de acción -->
     <div>
       <span class="muted">{{ org._id }}</span>
 
@@ -48,6 +56,7 @@
   </li>
 </ul>
 
+<!-- Botones para mostrar más/menos organizaciones si supera el limite -->
 <button 
   *ngIf="!mostrarTodasOrganizaciones && organizaciones.length > limite"
   class="btn"
@@ -67,6 +76,7 @@
   No hay organizaciones.
 </p>
 
+<!-- Formulario para añadir/editar organización -->
 <button type="button" class="btn" (click)="mostrarFormulario()">
   Añadir
 </button>
@@ -90,6 +100,7 @@
 
 </div>
 
+<!-- Botón para recargar la lista -->
 <button type="button" class="btn" (click)="load()">
   Recargar
 </button>

@@ -14,18 +14,21 @@ export class OrganizacionService {
 
   constructor(private http: HttpClient) {}
 
+  //Función: obtener organizaciones de la API
   getOrganizaciones(): Observable<Organizacion[]> {
     return this.http.get<Organizacion[]>(
       `${this.baseUrl}/organizaciones`
     );
   }
 
+  //Función: obtener una organización por su ID
   getOrganizacionById(id: string): Observable<Organizacion> {
     return this.http.get<Organizacion>(
       `${this.baseUrl}/organizaciones/${id}`
     );
   }
 
+  //Función: crear nueva organización
   createOrganizacion(name: string): Observable<Organizacion> {
     return this.http.post<Organizacion>(
       `${this.baseUrl}/organizaciones`,
@@ -33,6 +36,7 @@ export class OrganizacionService {
     );
   }
 
+  //Función: actualizar organización existente
   updateOrganizacion(id: string, name: string): Observable<Organizacion> {
     return this.http.put<Organizacion>(
       `${this.baseUrl}/organizaciones/${id}`,
@@ -40,6 +44,7 @@ export class OrganizacionService {
     );
   }
 
+  //Función: eliminar organización
   deleteOrganizacion(id: string): Observable<void> {
     return this.http.delete<void>(
       `${this.baseUrl}/organizaciones/${id}`

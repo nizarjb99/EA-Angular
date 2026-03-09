@@ -56,6 +56,7 @@ export class UsuarioList implements OnInit {
     return null;
   }
 
+  //Función: leer
   ngOnInit(): void {
     this.load();
     this.loadOrganizaciones();
@@ -90,10 +91,12 @@ export class UsuarioList implements OnInit {
     });
   }
 
+  //Función: trackBy para optimizar el ngFor
   trackById(_index: number, u: Usuario): string {
     return u._id;
   }
 
+  //Función: obtener nombre de organización para mostrar en la tabla
   organizacionLabel(u: Usuario): string {
     const org = u.organizacion;
     if (!org) return '-';
@@ -101,10 +104,12 @@ export class UsuarioList implements OnInit {
     return (org as Organizacion).name ?? '-';
   }
 
+  //Función: mostrar formulario
    mostrarFormulario(): void {
   this.mostrarForm = true;
 }
 
+//Función: cargar organizaciones para el select del formulario
 loadOrganizaciones(): void {
   this.api.getOrganizaciones().subscribe({
     next: (res) => {
@@ -127,6 +132,7 @@ loadOrganizaciones(): void {
     return this.usuariosFiltrados.slice(0, this.limite);
   }
   
+  //Función: guardar (tanto para crear como para actualizar)
 guardar(): void {
   
   if (this.usuarioForm.invalid) return;
@@ -163,10 +169,13 @@ guardar(): void {
       });
   }
 }
+
+//Función: expandir fila para mostrar detalles
 toggleExpand(id: string): void {
   this.expanded[id] = !this.expanded[id];
 }
 
+//Función: confirmar eliminación de usuario
   confirmDelete(id: string, name: string) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: name
@@ -178,6 +187,8 @@ toggleExpand(id: string): void {
       }
     });
   }
+
+  //Función: editar usuario (muestra el formulario con los datos cargados)
 editar(user: Usuario): void {
   this.mostrarForm = true;
   this.editando = true;
@@ -190,6 +201,7 @@ editar(user: Usuario): void {
       : (user.organizacion as Organizacion)?._id
   });
 }
+//Función: resetear formulario
 resetForm(): void {
   this.mostrarForm = false;
   this.editando = false;
@@ -197,6 +209,7 @@ resetForm(): void {
   this.usuarioForm.reset();
 }
 
+//Función: eliminar usuario
   delete(id: string): void {
     this.errorMsg = '';
     this.loading = true;

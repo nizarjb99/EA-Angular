@@ -1,0 +1,49 @@
+@if (organizacion) {
+
+  <div class="org-detail">
+
+    <h2>{{ organizacion.name }}</h2>
+    <p><strong>ID:</strong> {{ organizacion._id }}</p>
+
+    <hr>
+
+    <h3>Usuarios de la organización</h3>
+
+    @if (organizacion.users?.length) {
+
+      <ul>
+        @for (user of organizacion.users ?? []; track user._id) {
+          <li>
+            {{ user.name }}
+
+            @if (user.email) {
+              <span> — {{ user.email }}</span>
+            }
+
+            <button (click)="eliminarUsuario(user._id)">
+              Eliminar
+            </button>
+          </li>
+        }
+      </ul>
+
+    } @else {
+      <p>No hay usuarios en esta organización.</p>
+    }
+
+  </div>
+
+} @else {
+  <p>No se ha seleccionado ninguna organización.</p>
+}
+
+<hr>
+
+<input #nuevoUsuario placeholder="Nombre del usuario">
+
+<button (click)="
+  nuevoUsuario.value.trim() && 
+  agregarUsuario(nuevoUsuario.value); 
+  nuevoUsuario.value=''">
+  Añadir usuario
+</button>
